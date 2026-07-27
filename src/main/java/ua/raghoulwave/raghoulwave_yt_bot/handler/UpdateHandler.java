@@ -44,7 +44,7 @@ public class UpdateHandler {
 
         return SendMessage.builder()
                 .chatId(user.getTelegramId().toString())
-                .text("Nyan")
+                .text(user.getUsername())
                 .parseMode(ParseMode.HTML)
                 .build();
     }

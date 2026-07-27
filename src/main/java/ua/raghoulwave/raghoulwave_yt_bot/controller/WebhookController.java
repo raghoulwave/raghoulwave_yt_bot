@@ -11,7 +11,7 @@ import ua.raghoulwave.raghoulwave_yt_bot.handler.TelegramWebhookHandler;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/")
+@RequestMapping(value = "/webhook/${raghoulwavebot.config.webhook.secret}")
 public class WebhookController {
 
     private final TelegramWebhookHandler telegramWebhookHandler;

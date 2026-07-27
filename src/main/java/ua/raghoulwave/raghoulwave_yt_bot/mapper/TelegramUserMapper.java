@@ -18,6 +18,14 @@ public interface TelegramUserMapper {
     BotUser toEntity(User telegramUser);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "telegramId", source = "id")
+    @Mapping(target = "username", source = "userName")
+    @Mapping(target = "firstName", source = "firstName")
+    @Mapping(target = "lastName", source = "lastName")
+    @Mapping(target = "languageCode", source = "languageCode")
+    @Mapping(target = "page", ignore = true)
+    @Mapping(target = "state", ignore = true)
     void updateEntity(User telegramUser,
                       @MappingTarget BotUser entity);
 }
