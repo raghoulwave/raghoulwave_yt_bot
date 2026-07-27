@@ -1,4 +1,4 @@
-package ua.raghoulwave.raghoulwave_yt_bot.handler;
+package ua.raghoulwave.raghoulwave_yt_bot.dispatcher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,11 +12,11 @@ import ua.raghoulwave.raghoulwave_yt_bot.service.BotUserService;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UpdateHandler {
+public class UpdateDispatcher {
 
     private final BotUserService botUserService;
 
-    public SendMessage handle(Update update) {
+    public SendMessage dispatch(Update update) {
 
         if(!update.hasMessage()) {
             log.error(

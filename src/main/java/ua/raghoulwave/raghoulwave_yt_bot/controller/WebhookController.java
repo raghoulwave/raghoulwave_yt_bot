@@ -6,19 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import ua.raghoulwave.raghoulwave_yt_bot.handler.TelegramWebhookHandler;
+import ua.raghoulwave.raghoulwave_yt_bot.bot.TelegramWebhookBot;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/webhook/${raghoulwavebot.config.webhook.secret}")
+@RequestMapping(value = "/webhook/${raghoulwave.config.telegram.webhook-secret}")
 public class WebhookController {
 
-    private final TelegramWebhookHandler telegramWebhookHandler;
+    private final TelegramWebhookBot telegramWebhookBot;
 
     @PostMapping()
     @ResponseStatus(HttpStatus.OK)
     public BotApiMethod<?> onUpdateReceived(@RequestBody Update update) {
-        return telegramWebhookHandler.onWebhookUpdateReceived(update);
+        return telegramWebhookBot.onWebhookUpdateReceived(update);
     }
 }

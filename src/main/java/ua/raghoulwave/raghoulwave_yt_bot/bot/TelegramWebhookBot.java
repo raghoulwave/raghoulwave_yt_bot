@@ -1,7 +1,5 @@
-package ua.raghoulwave.raghoulwave_yt_bot.handler;
+package ua.raghoulwave.raghoulwave_yt_bot.bot;
 
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -9,24 +7,29 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
+import ua.raghoulwave.raghoulwave_yt_bot.dispatcher.UpdateDispatcher;
+import ua.raghoulwave.raghoulwave_yt_bot.properties.TelegramProperties;
 
 @Slf4j
-@FieldDefaults(level = AccessLevel.PRIVATE)
 @Service
-public class TelegramWebhookHandler extends SpringWebhookBot {
+public class TelegramWebhookBot extends SpringWebhookBot {
 
-    private String botPath;
-    private String botUsername;
-    private final UpdateHandler updateHandler;
+    private final UpdateDispatcher dispatcher;
 
-    public TelegramWebhookHandler(
+    public TelegramWebhookBot(
             DefaultBotOptions options,
             SetWebhook setWebhook,
-            String botToken,
-            UpdateHandler updateHandler
+            TelegramProperties properties,
+            UpdateDispatcher dispatcher
     ) {
-        super(options, setWebhook, botToken);
-        this.updateHandler = updateHandler;
+
+        super(
+                options,
+                setWebhook,
+                properties.botToken()
+        );
+
+        this.dispatcher = dispatcher;
     }
 
     @Override
@@ -35,16 +38,16 @@ public class TelegramWebhookHandler extends SpringWebhookBot {
                 "Received update {}",
                 update.getUpdateId()
         );
-        return updateHandler.handle(update);
+        return dispatcher.dispatch(update);
     }
 
     @Override
     public String getBotPath() {
-        return botPath;
+        return "";
     }
 
     @Override
     public String getBotUsername() {
-        return botUsername;
+        return "";
     }
 }
