@@ -22,7 +22,6 @@ public class YouTubeService {
     public List<TrackSearchResult> searchTracks(String query) {
 
          try {
-
              YouTube.Search.List search = youtube.search().list("snippet");
              search.setQ(query);
              search.setType("video");
