@@ -15,13 +15,14 @@ import ua.raghoulwave.raghoulwave_yt_bot.properties.TelegramProperties;
 public class TelegramWebhookBot extends SpringWebhookBot {
 
     private final UpdateDispatcher dispatcher;
+    private final TelegramProperties telegramProperties;
 
     public TelegramWebhookBot(
             DefaultBotOptions options,
             SetWebhook setWebhook,
             TelegramProperties properties,
-            UpdateDispatcher dispatcher
-    ) {
+            UpdateDispatcher dispatcher,
+            TelegramProperties telegramProperties) {
 
         super(
                 options,
@@ -30,11 +31,12 @@ public class TelegramWebhookBot extends SpringWebhookBot {
         );
 
         this.dispatcher = dispatcher;
+        this.telegramProperties = telegramProperties;
     }
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        log.trace(
+        log.info(
                 "Received update {}",
                 update.getUpdateId()
         );
@@ -43,11 +45,11 @@ public class TelegramWebhookBot extends SpringWebhookBot {
 
     @Override
     public String getBotPath() {
-        return "";
+        return telegramProperties.webhookUrl();
     }
 
     @Override
     public String getBotUsername() {
-        return "";
+        return "raghoulwave_bot";
     }
 }

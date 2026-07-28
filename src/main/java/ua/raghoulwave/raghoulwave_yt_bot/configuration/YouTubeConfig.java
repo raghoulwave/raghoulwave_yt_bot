@@ -19,14 +19,14 @@ import java.security.GeneralSecurityException;
 public class YouTubeConfig {
 
     @Bean
-    public YouTube youTube(YouTubeProperties properties) {
+    public YouTube youtube(YouTubeProperties properties) {
         try {
             return new YouTube.Builder(
                     GoogleNetHttpTransport.newTrustedTransport(),
                     GsonFactory.getDefaultInstance(),
                     _ -> {
                     })
-                    .setApplicationName("raghoulwavebot")
+                    .setApplicationName("raghoulwave_yt_bot")
                     .setYouTubeRequestInitializer(
                             new YouTubeRequestInitializer(properties.apiKey())
                     )

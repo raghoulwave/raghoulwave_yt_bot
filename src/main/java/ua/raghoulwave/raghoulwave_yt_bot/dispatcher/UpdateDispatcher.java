@@ -3,49 +3,40 @@ package ua.raghoulwave.raghoulwave_yt_bot.dispatcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ua.raghoulwave.raghoulwave_yt_bot.entity.BotUser;
+import ua.raghoulwave.raghoulwave_yt_bot.handler.InlineQueryHandler;
+import ua.raghoulwave.raghoulwave_yt_bot.handler.MessageHandler;
+import ua.raghoulwave.raghoulwave_yt_bot.properties.TelegramProperties;
 import ua.raghoulwave.raghoulwave_yt_bot.service.BotUserService;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class UpdateDispatcher {
 
-    private final BotUserService botUserService;
+    private final MessageHandler messageHandler;
+    private final InlineQueryHandler inlineQueryHandler;
 
-    public SendMessage dispatch(Update update) {
+    public BotApiMethod<?> dispatch(Update update) {
 
-        if(!update.hasMessage()) {
-            log.error(
-                    "Update has no message {}",
-                    update.getUpdateId()
-            );
-            return null;
+        if(update.hasMessage()) {
+            return messageHandler.handle(update.getMessage());
         }
 
-        if(!update.getMessage().hasText()) {
-            log.error(
-                    "Update has no text {}",
-                    update.getUpdateId()
-            );
-            return null;
+        if(update.hasInlineQuery()) {
+            return inlineQueryHandler.handle(update.getInlineQuery());
         }
-
-        BotUser user = botUserService.getOrCreate(update.getMessage().getFrom());
 
         log.info(
-                "Sending message to user {} ({})",
-                user.getTelegramId(),
-                user.getUsername()
+                "Ignoring unsupported Update {}",
+                update.getUpdateId()
         );
-
-        return SendMessage.builder()
-                .chatId(user.getTelegramId().toString())
-                .text(user.getUsername())
-                .parseMode(ParseMode.HTML)
-                .build();
+        return null;
     }
 }
