@@ -14,4 +14,8 @@ public class DownloadService {
 
     private final AudioTagService audioTagService;
     private final YtDlpService ytDlpService;
+
+    public void download(String ytId) {
+
+    }
 }

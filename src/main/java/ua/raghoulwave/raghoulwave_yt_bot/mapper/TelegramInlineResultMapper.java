@@ -22,7 +22,7 @@ public class TelegramInlineResultMapper {
         InputTextMessageContent content = new InputTextMessageContent();
 
         content.setMessageText(
-                "🎵 " + track.title()
+                "d:" + track.ytId()
         );
 
         article.setInputMessageContent(content);

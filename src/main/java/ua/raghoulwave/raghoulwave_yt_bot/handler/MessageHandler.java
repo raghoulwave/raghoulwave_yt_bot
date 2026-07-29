@@ -40,12 +40,25 @@ public class MessageHandler {
                     .build();
         }
 
-        log.info(
-                "Processing query \"{}\" from user {} ({})",
-                message.getText(),
-                user.getTelegramId(),
-                user.getUsername()
-        );
-        return sendAudioService.sendAudio(message.getText());
+        if(isDownloadRequest(message.getText())) {
+            log.info(
+                    "Processing query \"{}\" from user {} ({})",
+                    message.getText(),
+                    user.getTelegramId(),
+                    user.getUsername()
+            );
+            // sending ytId
+            return sendAudioService.sendAudio(message.getText().replaceFirst("d:", ""));
+        }
+
+        return SendMessage.builder()
+                .chatId(user.getTelegramId().toString())
+                .text("Choose a song! :D")
+                .parseMode(ParseMode.HTML)
+                .build();
+    }
+
+    private boolean isDownloadRequest(String text) {
+        return text.startsWith("d:");
     }
 }
