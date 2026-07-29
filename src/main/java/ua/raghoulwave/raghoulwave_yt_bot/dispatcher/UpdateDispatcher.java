@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import ua.raghoulwave.raghoulwave_yt_bot.entity.BotUser;
@@ -23,7 +24,7 @@ public class UpdateDispatcher {
     private final MessageHandler messageHandler;
     private final InlineQueryHandler inlineQueryHandler;
 
-    public BotApiMethod<?> dispatch(Update update) {
+    public PartialBotApiMethod<?> dispatch(Update update) {
 
         if(update.hasMessage()) {
             return messageHandler.handle(update.getMessage());

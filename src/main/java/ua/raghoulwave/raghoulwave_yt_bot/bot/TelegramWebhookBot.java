@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
@@ -34,13 +35,17 @@ public class TelegramWebhookBot extends SpringWebhookBot {
         this.telegramProperties = telegramProperties;
     }
 
-    @Override
-    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+    public PartialBotApiMethod<?> onUpdateReceived(Update update) {
         log.info(
                 "Received update {}",
                 update.getUpdateId()
         );
         return dispatcher.dispatch(update);
+    }
+
+    @Override
+    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
+        return null;
     }
 
     @Override

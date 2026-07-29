@@ -12,9 +12,6 @@ import java.nio.file.Path;
 @Service
 public class DownloadService {
 
-    private final YtDlpProperties properties;
-
-    public Path downloadDirectory() {
-        return properties.downloadDir();
-    }
+    private final AudioTagService audioTagService;
+    private final YtDlpService ytDlpService;
 }
