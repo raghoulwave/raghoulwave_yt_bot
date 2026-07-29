@@ -10,6 +10,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import ua.raghoulwave.raghoulwave_yt_bot.bot.TelegramWebhookBot;
 import ua.raghoulwave.raghoulwave_yt_bot.entity.BotUser;
 import ua.raghoulwave.raghoulwave_yt_bot.service.BotUserService;
 import ua.raghoulwave.raghoulwave_yt_bot.service.SendAudioService;
@@ -47,8 +48,7 @@ public class MessageHandler {
                     user.getTelegramId(),
                     user.getUsername()
             );
-            // sending ytId
-            return sendAudioService.sendAudio(message.getText().replaceFirst("d:", ""));
+            return sendAudioService.sendAudio(message);
         }
 
         return SendMessage.builder()

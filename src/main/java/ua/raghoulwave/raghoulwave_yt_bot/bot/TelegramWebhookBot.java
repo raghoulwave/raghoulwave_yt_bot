@@ -5,8 +5,11 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendAudio;
+import org.telegram.telegrambots.meta.api.methods.send.SendDocument;
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.starter.SpringWebhookBot;
 import ua.raghoulwave.raghoulwave_yt_bot.dispatcher.UpdateDispatcher;
 import ua.raghoulwave.raghoulwave_yt_bot.properties.TelegramProperties;
@@ -40,7 +43,18 @@ public class TelegramWebhookBot extends SpringWebhookBot {
                 "Received update {}",
                 update.getUpdateId()
         );
-        return dispatcher.dispatch(update);
+        PartialBotApiMethod<?> method = dispatcher.dispatch(update);
+        if(method instanceof SendAudio) {
+            try {
+                execute((SendAudio) method);
+            } catch(TelegramApiException e) {
+                log.info(
+                        "Exception: {}",
+                        e.getMessage()
+                );
+            }
+        }
+        return method;
     }
 
     @Override
