@@ -26,6 +26,6 @@ public interface TelegramUserMapper {
     @Mapping(target = "languageCode", source = "languageCode")
     @Mapping(target = "page", ignore = true)
     @Mapping(target = "state", ignore = true)
-    void updateEntity(User telegramUser,
+    void update(User telegramUser,
                       @MappingTarget BotUser entity);
 }

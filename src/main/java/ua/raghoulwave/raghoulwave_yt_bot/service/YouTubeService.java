@@ -18,6 +18,7 @@ import java.util.List;
 public class YouTubeService {
 
     private final YouTube youtube;
+    private final TrackService trackService;
 
     public List<TrackSearchResult> searchTracks(String query) {
          try {
@@ -30,14 +31,20 @@ public class YouTubeService {
              List<SearchResult> results = response.getItems();
 
              if (results != null && !results.isEmpty()) {
-                 return results
-                         .stream()
-                         .map(item -> TrackSearchResult.builder()
-                                 .ytId(item.getId().getVideoId())
-                                 .title(item.getSnippet().getTitle())
-                                 .artist(item.getSnippet().getChannelTitle())
-                                 .build())
-                         .toList();
+
+                 List<TrackSearchResult> trackSearchResults =
+                         results
+                                 .stream()
+                                 .map(item -> TrackSearchResult.builder()
+                                         .ytId(item.getId().getVideoId())
+                                         .title(item.getSnippet().getTitle())
+                                         .artist(item.getSnippet().getChannelTitle())
+                                         .build())
+                                 .toList();
+
+                 trackSearchResults.forEach(trackService::getOrCreate);
+
+                 return trackSearchResults;
              } else {
                  throw new RuntimeException("No response from YouTube");
              }

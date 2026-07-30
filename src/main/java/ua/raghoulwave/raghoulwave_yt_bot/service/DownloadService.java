@@ -18,7 +18,11 @@ public class DownloadService {
     private final YtDlpService ytDlpService;
 
     public InputFile download(String ytId) {
-        // Audio Tag
-        return new InputFile(new File(ytDlpService.getTrackPath(ytId)));
+
+        File file = new File(ytDlpService.getTrackPath(ytId));
+
+        audioTagService.setTrackTags(ytId, file);
+
+        return new InputFile(file);
     }
 }

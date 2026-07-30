@@ -23,8 +23,8 @@ public class BotUserService {
 
         return repository.findByTelegramId(telegramUser.getId())
                 .map(existing -> {
-                    mapper.updateEntity(telegramUser, existing);
-                    log.debug(
+                    mapper.update(telegramUser, existing);
+                    log.info(
                             "Updated existing user {} ({})",
                             existing.getTelegramId(),
                             existing.getUsername()

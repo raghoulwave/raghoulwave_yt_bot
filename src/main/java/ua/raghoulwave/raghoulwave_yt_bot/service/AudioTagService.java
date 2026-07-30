@@ -12,6 +12,7 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 import org.springframework.stereotype.Service;
+import ua.raghoulwave.raghoulwave_yt_bot.entity.Track;
 import ua.raghoulwave.raghoulwave_yt_bot.record.TrackSearchResult;
 
 import java.io.File;
@@ -22,15 +23,19 @@ import java.io.IOException;
 @Service
 public class AudioTagService {
 
-    public void setTrackTags(TrackSearchResult result, File file) {
+    private final TrackService trackService;
+
+    public void setTrackTags(String ytId, File file) {
+
+        Track track = trackService.getByYtId(ytId);
 
         try {
             AudioFile audioFile = AudioFileIO.read(file);
 
             Tag tag = audioFile.getTagOrCreateAndSetDefault();
 
-            tag.setField(FieldKey.ARTIST, result.artist());
-            tag.setField(FieldKey.TITLE, result.title());
+            tag.setField(FieldKey.ARTIST, track.getArtist());
+            tag.setField(FieldKey.TITLE, track.getTitle());
 
             audioFile.commit();
         } catch(CannotReadException |

@@ -20,8 +20,6 @@ public class SendAudioService {
         return SendAudio.builder()
                 .chatId(message.getChatId())
                 .audio(downloadService.download(ytId))
-                .title("Track")
-                .performer("Nobody, not even the Rain")
                 .build();
     }
 }

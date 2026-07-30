@@ -17,33 +17,21 @@ import java.util.UUID;
 @Builder
 // JPA
 @Entity
-@Table(name = "bot_users")
-public class BotUser {
+@Table(name = "tracks")
+public class Track {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false, unique = true, updatable = false)
-    private Long telegramId;
+    private String ytId;
 
     @Column(nullable = false)
-    private String username;
+    private String title;
 
     @Column(nullable = false)
-    private String firstName;
-
-    private String lastName;
-
-    @Column(nullable = false)
-    private String languageCode;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private BotState state; // individual state for user
-
-    @Builder.Default
-    private int page = 0; // user's page counter
+    private String artist;
 
     @CreationTimestamp
     private Instant createdAt;
@@ -53,12 +41,4 @@ public class BotUser {
 
     @Version
     private long version;
-
-    public void nextPage() {
-        page++;
-    }
-
-    public void resetPage() {
-        page = 0;
-    }
 }
