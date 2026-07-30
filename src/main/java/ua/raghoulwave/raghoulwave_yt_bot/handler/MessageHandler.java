@@ -53,7 +53,7 @@ public class MessageHandler {
 
         return SendMessage.builder()
                 .chatId(user.getTelegramId().toString())
-                .text("Choose a song! :D")
+                .text("Type \"@raghoulwave_bot song name\" to begin!")
                 .parseMode(ParseMode.HTML)
                 .build();
     }
