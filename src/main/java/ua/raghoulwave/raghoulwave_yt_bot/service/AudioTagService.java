@@ -13,7 +13,6 @@ import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 import org.springframework.stereotype.Service;
 import ua.raghoulwave.raghoulwave_yt_bot.entity.Track;
-import ua.raghoulwave.raghoulwave_yt_bot.record.TrackSearchResult;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,15 +1,13 @@
 package ua.raghoulwave.raghoulwave_yt_bot.service;
 
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ua.raghoulwave.raghoulwave_yt_bot.record.TrackSearchResult;
+import ua.raghoulwave.raghoulwave_yt_bot.entity.Track;
 
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -20,7 +18,7 @@ public class YouTubeService {
     private final YouTube youtube;
     private final TrackService trackService;
 
-    public List<TrackSearchResult> searchTracks(String query) {
+    public List<Track> searchTracks(String query) {
          try {
              YouTube.Search.List search = youtube.search().list("snippet");
              search.setQ(query);
@@ -32,19 +30,19 @@ public class YouTubeService {
 
              if (results != null && !results.isEmpty()) {
 
-                 List<TrackSearchResult> trackSearchResults =
+                 List<Track> tracks =
                          results
                                  .stream()
-                                 .map(item -> TrackSearchResult.builder()
+                                 .map(item -> Track.builder()
                                          .ytId(item.getId().getVideoId())
                                          .title(item.getSnippet().getTitle())
                                          .artist(item.getSnippet().getChannelTitle())
                                          .build())
                                  .toList();
 
-                 trackSearchResults.forEach(trackService::getOrCreate);
+                 tracks.forEach(trackService::getOrCreate);
 
-                 return trackSearchResults;
+                 return tracks;
              } else {
                  throw new RuntimeException("No response from YouTube");
              }

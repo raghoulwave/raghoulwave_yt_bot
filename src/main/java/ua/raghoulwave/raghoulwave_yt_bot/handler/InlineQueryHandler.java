@@ -4,14 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.AnswerInlineQuery;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.InlineQuery;
 import org.telegram.telegrambots.meta.api.objects.inlinequery.result.InlineQueryResult;
+import ua.raghoulwave.raghoulwave_yt_bot.entity.Track;
 import ua.raghoulwave.raghoulwave_yt_bot.mapper.TelegramInlineResultMapper;
-import ua.raghoulwave.raghoulwave_yt_bot.record.TrackSearchResult;
 import ua.raghoulwave.raghoulwave_yt_bot.service.YouTubeService;
 
 import java.util.List;
@@ -35,7 +31,7 @@ public class InlineQueryHandler {
                 query.getQuery()
         );
 
-        List<TrackSearchResult> tracks = youTubeService.searchTracks(query.getQuery());
+        List<Track> tracks = youTubeService.searchTracks(query.getQuery());
 
         List<InlineQueryResult> results =
                 tracks.stream()

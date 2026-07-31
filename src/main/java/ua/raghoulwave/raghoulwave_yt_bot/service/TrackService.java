@@ -5,8 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ua.raghoulwave.raghoulwave_yt_bot.entity.Track;
-import ua.raghoulwave.raghoulwave_yt_bot.mapper.TrackSearchResultMapper;
-import ua.raghoulwave.raghoulwave_yt_bot.record.TrackSearchResult;
 import ua.raghoulwave.raghoulwave_yt_bot.repository.TrackRepository;
 
 @Slf4j
@@ -16,15 +14,13 @@ import ua.raghoulwave.raghoulwave_yt_bot.repository.TrackRepository;
 public class TrackService {
 
     private final TrackRepository repository;
-    private final TrackSearchResultMapper mapper;
 
-    public Track getOrCreate(TrackSearchResult result) {
+    public Track getOrCreate(Track track) {
 
-        return repository.findByYtId(result.ytId())
+        return repository.findByYtId(track.getYtId())
                 .map(existing -> {
-                    mapper.update(result, existing);
                     log.info(
-                            "Updating existing track {} ({})",
+                            "Getting existing track {} ({})",
                             existing.getTitle(),
                             existing.getYtId()
                     );
@@ -33,10 +29,10 @@ public class TrackService {
                 .orElseGet(() -> {
                     log.info(
                             "Saving Track {} ({})",
-                            result.title(),
-                            result.ytId()
+                            track.getTitle(),
+                            track.getYtId()
                     );
-                    return repository.save(mapper.toEntity(result));
+                    return repository.save(track);
                 });
     }
 
