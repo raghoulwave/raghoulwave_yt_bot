@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import ua.raghoulwave.raghoulwave_yt_bot.constant.BotState;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -38,13 +37,6 @@ public class BotUser {
     @Column(nullable = false)
     private String languageCode;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private BotState state; // individual state for user
-
-    @Builder.Default
-    private int page = 0; // user's page counter
-
     @CreationTimestamp
     private Instant createdAt;
 
@@ -53,12 +45,4 @@ public class BotUser {
 
     @Version
     private long version;
-
-    public void nextPage() {
-        page++;
-    }
-
-    public void resetPage() {
-        page = 0;
-    }
 }
